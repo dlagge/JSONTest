@@ -1,1 +1,187 @@
-ghgfh
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Order API (Bestellungen)",
+    "description": "The root schema comprises the entire JSON document.",
+    "contact": {
+      "name": "Christian Hoffhues",
+      "email": "c.hoffhues@saracus.com"
+    },
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://fa-order-api-bp-prod.azurewebsites.net/api/orders",
+      "description": "PROD server"
+    },
+    {
+      "url": "https://fa-order-api-bp-test.azurewebsites.net/api/orders",
+      "description": "TEST server"
+    }
+  ],
+  "paths": {
+    "/order": {
+      "post": {
+        "tags": [
+          "Einkaufbestellungen"
+        ],
+        "summary": "Neue Bestellung hinzufügen",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/EinkaufBestellung"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "The order has been placed. Filename: webapi_104180_20220308T123509.xml"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EinkaufBestellung": {
+        "required": [
+          "Bestellnummer",
+          "EinkaufsZeile",
+          "UnsereKundennr"
+        ],
+        "type": "object",
+        "properties": {
+          "UnsereKundennr": {
+            "title": "The UnsereKundennr schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "099999",
+            "default": ""
+          },
+          "Bestellnummer": {
+            "title": "The Bestellnummer schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "104180",
+            "default": ""
+          },
+          "Lieferdatum": {
+            "title": "The Lieferdatum schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "2022-01-22",
+            "default": ""
+          },
+          "Auftragstyp": {
+            "title": "The Auftragstyp schema",
+            "type": "integer",
+            "description": "An explanation about the purpose of this instance.",
+            "example": 114,
+            "default": 0
+          },
+          "EinkaufsZeile": {
+            "title": "The EinkaufsZeile schema",
+            "type": "array",
+            "description": "An explanation about the purpose of this instance.",
+            "example": [
+              {
+                "Zeilennr": 1000,
+                "LiefArtikelnr": "1801",
+                "Bezeichnung": "Rohmilch",
+                "Menge": 6.754654,
+                "Einkaufspreis": 2,
+                "Einheit": "ST",
+                "EANCode": "123456",
+                "Pharmacode": "87458411321"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/EinkaufBestellung_EinkaufsZeile"
+            },
+            "default": []
+          }
+        }
+      },
+      "EinkaufBestellung_EinkaufsZeile": {
+        "required": [
+          "LiefArtikelnr",
+          "Menge"
+        ],
+        "properties": {
+          "Zeilennr": {
+            "title": "The Zeilennr schema",
+            "type": "integer",
+            "description": "An explanation about the purpose of this instance.",
+            "example": 1000,
+            "default": 0
+          },
+          "LiefArtikelnr": {
+            "title": "The LiefArtikelnr schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "1801",
+            "default": ""
+          },
+          "Bezeichnung": {
+            "title": "The Bezeichnung schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "Rohmilch",
+            "default": ""
+          },
+          "EANCode": {
+            "title": "the EANCode schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "4002724000775",
+            "default": ""
+          },
+          "Menge": {
+            "title": "The Menge schema",
+            "type": "number",
+            "description": "An explanation about the purpose of this instance.",
+            "example": 6,
+            "default": 0
+          },
+          "Einkaufspreis": {
+            "title": "The Einkaufspreis schema",
+            "type": "number",
+            "description": "An explanation about the purpose of this instance.",
+            "example": 2,
+            "default": 0
+          },
+          "Einheit": {
+            "title": "The Einheit schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "ST",
+            "default": ""
+          },
+          "Pharmacode": {
+            "title": "The Bezeichnung schema",
+            "type": "string",
+            "description": "An explanation about the purpose of this instance.",
+            "example": "10006511",
+            "default": ""
+          }
+        },
+        "example": null
+      }
+    },
+    "requestBodies": {
+      "EinkaufBestellung": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EinkaufBestellung"
+            }
+          }
+        }
+      }
+    }
+  }
+}
